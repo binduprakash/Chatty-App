@@ -13,23 +13,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"},
-      messages: [
-        {
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-          id: 1
-        },
-        {
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-          id: 2
-        }
-
-      ]
+      messages: []
     };
-  }
-
-  componentDidMount() {
     this.socket = new WebSocket('ws://localhost:3001');
     this.socket.onopen = (event) => {
       console.log('Connected to server');
@@ -38,16 +23,19 @@ class App extends Component {
 
   render() {
     const addMessage = message => {
+      this.socket.send(JSON.stringify(message));
+    };
+    this.socket.onmessage = (event) =>{
+      const message = JSON.parse(event.data);
       let messages = this.state.messages;
       messages = messages.concat([
         {
-          id: messages.length + 1,
+          id: message.id,
           username: message.username,
           content: message.content
         }
       ]);
       this.setState({messages});
-      this.socket.send(JSON.stringify(message));
     };
     return (
     <div>
