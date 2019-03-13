@@ -29,6 +29,12 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:3001');
+    this.socket.onopen = (event) => {
+      console.log('Connected to server');
+    }
+  }
 
   render() {
     const addMessage = message => {
@@ -41,6 +47,7 @@ class App extends Component {
         }
       ]);
       this.setState({messages});
+      this.socket.send(JSON.stringify(message));
     };
     return (
     <div>
