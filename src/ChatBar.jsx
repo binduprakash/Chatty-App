@@ -7,7 +7,8 @@ class ChatBar extends Component {
         if(messageText){
           this.props.addMessage ({
             content: messageText,
-            username: this.props.currentUser.name
+            username: this.props.currentUser.name,
+            type: "postMessage"
           });
         }
       }

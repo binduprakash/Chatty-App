@@ -24,8 +24,20 @@ wss.on('connection', (ws) => {
 ws.on('message', (data) => {
     let message = JSON.parse(data);
     message["id"] = uuid();
-    console.log(`User ${message.username} said ${message.content}`);
     console.log(message);
+    switch(data.type) {
+        case "postMessage":
+            console.log(`User ${message.username} said ${message.content}`);
+            message["type"] = "incomingMessage";
+        
+          break;
+        case "postNotification":
+            message["type"] = "incomingNotification";
+          break;
+        default:
+          // show an error in the console if the message type is unknown
+            throw new Error("Unknown event type " + data.type);
+      }
 
     wss.clients.forEach((client) => {
         client.send(JSON.stringify(message)); 

@@ -26,7 +26,14 @@ class App extends Component {
       this.socket.send(JSON.stringify(message));
     };
     const setUserName = username => {
+      if(this.state.currentUser.name){
+        this.socket.send(JSON.stringify({
+          type: "postNotification",
+          content: `${this.state.currentUser.name} has changed their name to ${username}.`
+        }));
+      }
       this.setState({currentUser: {name: username}});
+      
     };
     this.socket.onmessage = (event) =>{
       const message = JSON.parse(event.data);
@@ -35,7 +42,8 @@ class App extends Component {
         {
           id: message.id,
           username: message.username,
-          content: message.content
+          content: message.content,
+          type: message.type
         }
       ]);
       this.setState({messages});
