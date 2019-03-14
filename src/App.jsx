@@ -25,6 +25,9 @@ class App extends Component {
     const addMessage = message => {
       this.socket.send(JSON.stringify(message));
     };
+    const setUserName = username => {
+      this.setState({currentUser: {name: username}});
+    };
     this.socket.onmessage = (event) =>{
       const message = JSON.parse(event.data);
       let messages = this.state.messages;
@@ -41,7 +44,7 @@ class App extends Component {
     <div>
       <TopBar/>
       <MessageList messages={this.state.messages}/>
-      <ChatBar currentUser={this.state.currentUser} addMessage={addMessage}/>
+      <ChatBar currentUser={this.state.currentUser} addMessage={addMessage} setUserName={setUserName}/>
     </div>
     );
   }
