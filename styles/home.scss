@@ -59,6 +59,16 @@ h1 {
     .message-content {
       flex: 8;
     }
+    .notification {
+      display: flex;
+      padding: 5px;
+    }
+
+    .notification-content {
+      font-style: italic;
+      padding: 5px 20px;
+      margin-left:300px;
+    }
 
     .message-username {
       flex: 2;
@@ -86,4 +96,10 @@ h1 {
       line-height: 60px;
       padding: 0 10px;
       text-decoration: none;
+    }
+
+    .navbar-userCount {
+      float: right;
+      font-size: 15px;
+      line-height: 60px;
     }
