@@ -26,9 +26,32 @@ class App extends Component {
       messages: [], // Contains list of messages.
       userCount: 0 // Total users count online broatcasted by WS Server.
     };
+  }
+
+  componentDidMount(){
     this.socket = new WebSocket('ws://localhost:3001');
     this.socket.onopen = (event) => {
       console.log('Connected to server');
+    }
+    /* On Message Event listener - Get called everytime there is a message from Server */
+    this.socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if(message.type == "userCountMessage"){
+        console.log(message);
+        this.setState({userCount: message.count});
+      } else {
+        let messages = this.state.messages;
+        messages = messages.concat([
+          {
+            id: message.id,
+            username: message.username,
+            content: message.content,
+            type: message.type,
+            color: message.color
+          }
+        ]);
+        this.setState({messages});
+      }
     }
   }
 
@@ -48,27 +71,6 @@ class App extends Component {
       }
       this.setState({currentUser: {name: username}});
     };
-
-    /* On Message Event listener - Get called everytime there is a message from Server */
-    this.socket.onmessage = (event) =>{
-      const message = JSON.parse(event.data);
-      if(message.type == "userCountMessage"){
-        console.log(message);
-        this.setState({userCount: message.count});
-      } else {
-        let messages = this.state.messages;
-        messages = messages.concat([
-        {
-          id: message.id,
-          username: message.username,
-          content: message.content,
-          type: message.type,
-          color: message.color
-        }
-      ]);
-      this.setState({messages});
-    };
-  }
       
     return (
     <div>

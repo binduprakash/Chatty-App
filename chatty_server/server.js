@@ -17,6 +17,7 @@ const wss = new SocketServer({ server });
 
 // To assign different colors to different users.
 const colors = ["#FF5733", "#5BA718", "#B82FD3", "#1E37D8"];
+let userColor = {};
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -38,9 +39,11 @@ wss.on('connection', (ws) => {
         message["id"] = uuid();
         switch(message.type) {
             case "postMessage":
-                console.log(`User ${message.username} said ${message.content}`);
                 message["type"] = "incomingMessage";
-                message["color"] = colors[Math.floor(Math.random() * 4)];
+                if (!(message.username in userColor)) {
+                    userColor[message.username] = colors[Math.floor(Math.random() * 4)];
+                }
+                message["color"] = userColor[message.username];
             break;
             case "postNotification":
                 message["type"] = "incomingNotification";
