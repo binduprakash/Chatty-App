@@ -18,7 +18,6 @@ function TopBar(props){
 class App extends Component {
 
   // Constructor which initiates the States
-  // and socket connection for messaging.
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +36,6 @@ class App extends Component {
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
       if(message.type == "userCountMessage"){
-        console.log(message);
         this.setState({userCount: message.count});
       } else {
         let messages = this.state.messages;
