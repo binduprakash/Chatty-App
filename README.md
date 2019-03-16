@@ -40,3 +40,5 @@ Chatty-App is a single page React App built for users to chat or send message to
 - react-dom
 
 ## Screenshots
+!["Screenshot 1 of Chatty-App"](https://github.com/binduprakash/Chatty-App/blob/master/docs/first.png)
+!["Screenshot 2 of Chatty-App"](https://github.com/binduprakash/Chatty-App/blob/master/docs/second.png)
